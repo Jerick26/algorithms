@@ -1,2 +1,3 @@
 # algorithms
 etc...
+book: http://algs4.cs.princeton.edu/home/
