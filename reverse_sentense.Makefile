@@ -5,6 +5,8 @@ CFLAGS = -I$(IDIR) -std=c++11 -stdlib=libc++ -g -Wno-c++98-compat
 ODIR = obj
 #LDIR =../lib
 
+#LIBS=-lm  // include match library
+
 _DEPS =
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
@@ -15,7 +17,7 @@ $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 main: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 clean:
