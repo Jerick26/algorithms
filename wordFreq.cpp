@@ -1,66 +1,70 @@
-#include <iostream>
-#include <vector>
-#include <map>
 #include <string>
-#include <iterator>
-#include <cassert>
+#include <map>
+#include <vector>
+#include <iostream>
+#include <climits>
+#include <cstdlib>
 
 using std::string;
 
-void split2words(const string& s, std::map<string, int>& w) {
+void split_to_words(const string& s, std::map<string, int>* w) {
   int b = 0, e = 0;
   int len = s.length();
   while (b < len) {
     while (b < len && s.at(b) == ' ')
-    { b++; }
+      b++;
     e = b + 1;
     while (e < len && s.at(e) != ' ')
-    { e++; }
-    w[s.substr(b, e-b)]++;
-    b = e;
+      e++;
+    (*w)[s.substr(b,  e - b)]++;
+    b = e + 1;
   }
 }
 
-void getTop(int k, std::map<string, int>& w,
-            std::vector<std::pair<string, int>>* top_vec) {
+void get_top(int k, const std::map<string, int>& w,
+             std::vector<std::pair<string, int>>* vec) {
+  vec->clear();
+  vec->emplace(vec->begin(), "@@@@", INT_MAX);
   k = w.size() > k ? k : w.size();
-  top_vec->clear();
-  //top_vec->emplace_back({"!@#$%", 100000000});
-  top_vec->push_back(std::pair<string, int>("@@@@", 100000000));
   for (int i=0; i<k; ++i) {
-    top_vec->push_back(std::pair<string, int>("$$$$$", 0));
+    vec->emplace_back("@@@@", 0);
   }
   for (auto it=w.begin(); it!=w.end(); ++it) {
-    for (int i=k; i >= 0; --i) {
-      if (top_vec->at(i).second >= (*it).second) {
-        top_vec->insert(top_vec->begin()+i+1, *it);
-        top_vec->pop_back();
+    for (int i=k; i>=0; --i) {
+      if (vec->at(i).second >= it->second) {
+        vec->insert(vec->begin()+i+1, *it);
+        vec->pop_back();
         break;
       }
     }
   }
-  top_vec->erase(top_vec->begin());
+  vec->erase(vec->begin());
 }
 
 template <typename pair_list_t>
-void print_pair_list(const pair_list_t& list) {
-  for (auto x : list) {
-    std::cout << x.first << ":" << x.second << std::endl;
+void print_pair_list(const pair_list_t& li) {
+  for (auto it=li.begin(); it!=li.end(); ++it) {
+    std::cout << it->first << ": " << it->second << std::endl;
   }
 }
 
-
-int main(int argc, char* arg[])
-{
-  std::cout << "Hello, nice to meet you!" << std::endl;
-  string s = "ef ab cd ef ab cd ab ef dd dd dd dd dd ab ab";
-  std::vector<std::pair<string, int>> top_vec;
+int main(int argc, char*arg[]) {
+  if (argc < 2) {
+    std::cout << "argument to main is insufficient!" << std::endl;
+    return -1;
+  }
+  int k = atoi(arg[1]);
+  string s;
+  string data;
+  while (std::cin >> data) {
+    s.append(data).append(" ");
+  }
   std::map<string, int> w;
-  split2words(s, w);
+  split_to_words(s, &w);
   print_pair_list(w);
-  std::cout << "get top 2" << std::endl;
-  getTop(2, w, &top_vec);
-  print_pair_list(top_vec);
-
+  std::cout << "the top " << k << " words is:" << std::endl;
+  std::vector<std::pair<string, int>> top_key;
+  get_top(k, w, &top_key);
+  print_pair_list(top_key);
   return 0;
 }
