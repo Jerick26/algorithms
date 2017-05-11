@@ -29,19 +29,16 @@ void getTop(int k, std::map<string, int>& w,
   top_vec->push_back(std::pair<string, int>("@@@@", 100000000));
   for (int i=0; i<k; ++i) {
     top_vec->push_back(std::pair<string, int>("$$$$$", 0));
-    //top_vec->push_back(*it);
   }
-  //top_vec->emplace_back({"%$#@!", 0});
-  top_vec->push_back(std::pair<string, int>("$$$$$", 0));
-  for (int i=k; i >= 0; --i) {
-    for (auto it=w.begin(); it!=w.end(); ++it) {
+  for (auto it=w.begin(); it!=w.end(); ++it) {
+    for (int i=k; i >= 0; --i) {
       if (top_vec->at(i).second >= (*it).second) {
-        top_vec->at(i+1) = *it;
+        top_vec->insert(top_vec->begin()+i+1, *it);
+        top_vec->pop_back();
         break;
       }
     }
   }
-  top_vec->pop_back();
   top_vec->erase(top_vec->begin());
 }
 
@@ -49,7 +46,7 @@ void getTop(int k, std::map<string, int>& w,
 int main(int argc, char* arg[])
 {
   std::cout << "Hello, nice to meet you!" << std::endl;
-  string s = "ef ab cd ef ab cd ab ef dd dd dd dd dd";
+  string s = "ef ab cd ef ab cd ab ef dd dd dd dd dd ab ab";
   std::vector<std::pair<string, int>> top_vec;
   std::map<string, int> w;
   split2words(s, w);
