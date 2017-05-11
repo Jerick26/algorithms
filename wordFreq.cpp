@@ -42,6 +42,13 @@ void getTop(int k, std::map<string, int>& w,
   top_vec->erase(top_vec->begin());
 }
 
+template <typename pair_list_t>
+void print_pair_list(const pair_list_t& list) {
+  for (auto x : list) {
+    std::cout << x.first << ":" << x.second << std::endl;
+  }
+}
+
 
 int main(int argc, char* arg[])
 {
@@ -50,14 +57,10 @@ int main(int argc, char* arg[])
   std::vector<std::pair<string, int>> top_vec;
   std::map<string, int> w;
   split2words(s, w);
-  for (auto it=w.begin(); it!=w.end(); ++it) {
-    std::cout << it->first << ":" << it->second << std::endl;
-  }
+  print_pair_list(w);
   std::cout << "get top 2" << std::endl;
   getTop(2, w, &top_vec);
-  for (auto it=top_vec.begin(); it!=top_vec.end(); ++it) {
-    std::cout << it->first << ":" << it->second << std::endl;
-  }
+  print_pair_list(top_vec);
 
   return 0;
 }
