@@ -1,3 +1,20 @@
+/******************************************************************************
+ *  Compilation:  g++ -o main main.cpp -std=c++0x -g
+ *  Execution:    ./main n < input.txt
+ *  Dependencies: std::cin std::cout
+ *  Data files:   https://github.com/Jerick26/algorithms/blob/master/word_freq_test.data
+ *
+ *  word freq count and get top N frequence words
+ *    - parse a string to get the frequence information
+ *    - get top N frequence words
+ *
+ *  % ./main 3 < word_freq_test.data
+ *  the top 3 words is:
+ *  nob: 6
+ *  joy: 5
+ *  ilk: 4
+ *
+ ******************************************************************************/
 #include <string>
 #include <map>
 #include <vector>
