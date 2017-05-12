@@ -59,6 +59,6 @@ int main(int argc, char* argv[]) {
 }
 
 /******************************************************************************
- *  Copyright © 2000–2016, Robert Sedgewick and Kevin Wayne. 
- *  Last updated: Fri Mar 10 21:01:06 EST 2017.
+ *  Copyright © 2000–2017, Jerick26. 
+ *  Last updated: Fri May 12 EST 2017.
  ******************************************************************************/
