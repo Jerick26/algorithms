@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <queue>
+#include <stdexcept>
 
 using std::string;
 
@@ -40,6 +41,9 @@ class Tst {
     cnt += size(x->left) + size(x->mid) + size(x->right);
     return cnt;
   }
+  bool contains(const string& key) {
+    return get(key) != NULL;
+  }
   const Value* get(const string& key) const {
     Node* x = get(root, key, 0);
     if (x == NULL)
@@ -56,14 +60,44 @@ class Tst {
     root = put(root, key, val, 0);
   }
   std::queue<string>* keys() {
-    return keysWithPrefix("");
+    std::queue<string>* q = new std::queue<string>();
+    collect(root, "", q);
+    return q;
   }
   std::queue<string>* keysWithPrefix(const string& pre) {
-    std::queue<string>* q = std::queue<string>();
+    std::queue<string>* q = new std::queue<string>();
     Node* x = get(root, pre, 0);
     if (x->val != NULL)
       q->push(pre);
     collect(x->mid, pre, q);
+    return q;
+  }
+  string longestPrefixOf(const string& query) {
+    if (query.length() == 0)
+      return string();
+    int i = 0;
+    int length = 0;
+    Node* x = root;
+    while (i < query.length() && x != NULL) {
+      char c = query.at(i);
+      if (c < x->c) {
+        x = x->left;
+      } else if (c > x->c) {
+        x = x->right;
+      } else {
+        i++;
+        if (x->val != NULL)
+          length = i;
+        x = x->mid;
+      }
+    }
+    return query.substr(0, length);
+  }
+  std::queue<string>* keysThatMatch(const string& pat) {
+    if (pat.length() == 0)
+      return NULL;
+    std::queue<string>* q = new std::queue<string>();
+    collect(root, "", pat, 0, q);
     return q;
   }
 
@@ -110,6 +144,22 @@ class Tst {
     collect(x->mid, pre + x->c, q);
     collect(x->right, pre, q);
   }
+  void collect(Node* x, const string& pre, const string& pat, int d,
+               std::queue<string>* q) {
+    if (x == NULL)
+      return;
+    char c = pat.at(d);
+    if (c != '.' || c < x->c)
+      collect(x->left, pre,  pat, d, q);
+    if (c == '.' || c == x->c) {
+      if (d == pat.length()-1 && x->val != NULL)
+        q->push(pre + x->c);
+      if (d < pat.length() - 1)
+        collect(x->mid, pre + x->c, pat, d+1, q);
+    }
+    if (c == '.' || c > x->c)
+      collect(x->right, pre, pat, d, q);
+  }
  private:
   Node* root;
 };
@@ -135,23 +185,50 @@ void test_get_put(Tst<int>& tst) {
   std::cout << "test get put end" << std::endl;
 }
 
-void test_get_put(Tst<int>& tst) {
+void test_keys(Tst<int>& tst) {
   std::cout << "test keys begin ..." << std::endl;
-  std::queue<string>* q = tst.keys();
   std::cout << "keys: " << std::endl;
+  std::queue<string>* q = tst.keys();
   while (!q->empty()) {
     std::cout << q->front() << std::endl;
     q->pop();
   }
   delete q;
-  std::cout << "test keysWithPrefix" << std::endl;
-  std::cout << "zh: " << (zh?*zh:-1) << std::endl;
-  std::cout << "test get put end" << std::endl;
+  std::cout << "keys with prefix: sh" << std::endl;
+  std::queue<string>* p = tst.keysWithPrefix("sh");
+  while (!p->empty()) {
+    std::cout << p->front() << std::endl;
+    p->pop();
+  }
+  delete p;
+  std::cout << "test kyes end" << std::endl;
+}
+
+void test_longestPrefixOf(Tst<int>& tst) {
+  std::cout << "test longestPrefixOf begin ..." << std::endl;
+  std::cout << "longestPrefixOf shell is: "
+      << tst.longestPrefixOf("shell") << std::endl;
+  std::cout << "test longestPrefixOf end" << std::endl;
+}
+
+void test_keysThatMatch(Tst<int>& tst) {
+  std::cout << "test keysThatMatch begin ..." << std::endl;
+  std::queue<string>* q = tst.keysThatMatch(".h.");
+  std::cout << "keysThatMatch is: " << std::endl;
+  while (!q->empty()) {
+    std::cout << q->front() << std::endl;
+    q->pop();
+  }
+  delete q;
+  std::cout << "test longestPrefixOf end" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
   Tst<int> tst;
   initTst(tst);
   test_get_put(tst);
+  test_keys(tst);
+  test_longestPrefixOf(tst);
+  test_keysThatMatch(tst);
   return 0;
 }
