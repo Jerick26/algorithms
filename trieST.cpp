@@ -147,7 +147,7 @@ void initTrie(TrieST<int>& trie) {
   trie.put("she", &k4);
   trie.put("zhe", &k5);
   trie.put("shells", &k6);
-	trie.put("their", &k6);
+  trie.put("their", &k6);
 }
 
 void test_get_put(TrieST<int>& trie) {
@@ -203,9 +203,9 @@ void test_longestPrefixOf(TrieST<int>& trie) {
 
 void test_erase(TrieST<int>& trie) {
   std::cout << "test delete begin ..." << std::endl;
-	trie.erase("their");
-	trie.erase("sheet");
-	trie.erase("she");
+  trie.erase("their");
+  trie.erase("sheet");
+  trie.erase("she");
   std::cout << "after delete, keys:" << std::endl;
   std::queue<string>* q = trie.keys();
   while (!q->empty()) {
@@ -223,6 +223,6 @@ int main(int argc, char* argv[]) {
   test_keys(trie);
   test_keysThatMatch(trie);
   test_longestPrefixOf(trie);
-	test_erase(trie);
+  test_erase(trie);
   return 0;
 }
