@@ -1,5 +1,11 @@
 /*
  * Dijkstra's Two-Stack Algorithm for Expression Evaluation
+ * Compilation: g++ -o evaluate evaluate.cpp -std=c++0x -g
+ * Dependencies:
+ * Execution: ./evaluate
+ * ( ( 2 + ( ( 3 * 4 ) * 5 ) ) + ( 6 * sqrt ( 4 ) ) )
+ * output:
+ *   the result is: 74
  */
 #include <stack>
 #include <string>
