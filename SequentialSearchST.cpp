@@ -69,7 +69,7 @@ public:
 
   Value get(const Key& key) {
     for (Node* x = first; x != NULL; x = x->next) {
-      if (x->Key == key)
+      if (x->key == key)
         return x->val;
     }
     return NULL;
@@ -116,11 +116,9 @@ int main(int argc, char* argv[]) {
   for (int i = 0; std::cin >> s; i++) {
     st.put(s, i);
   }
-  std::cout << "the keys:";
   std::vector<string> keys;
   st.keys(keys);
   for (auto it = keys.begin(); it != keys.end(); ++it)
-    std::cout << " " << *it;
-  std::cout << std::endl;
+    std::cout << *it << " " << st.get(*it) << std::endl;
   return 0;
 }
