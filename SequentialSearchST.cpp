@@ -1,3 +1,28 @@
+/******************************************************************************
+ *  Compilation:  g++ SequentialSearchST
+ *  Execution:    ./a.out < tinyST.txt
+ *  Dependencies:
+ *  
+ *  Symbol table implementation with sequential search in an
+ *  unordered linked list of key-value pairs.
+ *
+ *  % more tinyST.txt
+ *  S E A R C H E X A M P L E
+ *
+ *  % java SequentialSearchST < tiny.txt 
+ *  L 11
+ *  P 10
+ *  M 9
+ *  X 7
+ *  H 5
+ *  C 4
+ *  R 3
+ *  A 8
+ *  E 12
+ *  S 0
+ *
+ ******************************************************************************/
+
 #include <string>
 #include <iostream>
 #include <vector>
