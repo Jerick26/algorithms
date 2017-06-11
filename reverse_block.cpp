@@ -58,6 +58,16 @@ Node<T>* block_reverse(Node<T>* first, int k) {
   return prev;
 }
 
+public Node reverse(Node first) {
+  if (first == null) return null;
+  if (first.next == null) return first;
+  Node second = first.next;
+  Node rest = reverse(second);
+  second.next = first;
+  first.next  = null;
+  return rest;
+}
+
 int main(int argc, char* argv[]) {
   if (argc < 2) {
     std::cout << "arguments to main is insufficient!" << std::endl;
