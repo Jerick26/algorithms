@@ -1,3 +1,11 @@
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using std::string;
+
 int rank(int a[], int lo, int hi, int key) {
   while (lo <= hi) {
     int mid = (lo + hi) / 2;
@@ -18,15 +26,6 @@ int rank(int a[], int lo, int hi, int key) {
   else if (key < a[mid])  rank(a, lo, mid-1, key);
   else                    return mid;
 }
-
-
-#include <cstdlib>
-#include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
-
-using std::string;
 
 int binary_search(const std::vector<int>& a, int lo, int hi, int v);
 int binary_search(const std::vector<int>& a, int v);
