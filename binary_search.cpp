@@ -19,13 +19,21 @@ int rank(int a[], int lo, int hi, int key) {
 /*
  * recursive
  */
-int rank(int a[], int lo, int hi, int key) {
+int rank_recursive(int a[], int lo, int hi, int key) {
   if (lo > hi)    return -1;
   int mid = (lo + hi) / 2;
   if (key > a[mid])       rank(a, mid+1, hi, key);
   else if (key < a[mid])  rank(a, lo, mid-1, key);
   else                    return mid;
 }
+
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using std::string;
 
 int binary_search(const std::vector<int>& a, int lo, int hi, int v);
 int binary_search(const std::vector<int>& a, int v);
@@ -62,7 +70,7 @@ int lower_bound(const std::vector<int>& a, int v) {
       hi = mid;
     }
   }
-  if (lo > hi || hi < 0 || lo >= a.size())
+  if (lo == a.size() || a[lo] != v)
     return -1;
   return lo;
 }
@@ -81,3 +89,4 @@ int main(int argc, char* argv[]) {
   int idx = lower_bound(a, v);
   std::cout << "lower bound is: " << idx << std::endl;
 }
+
