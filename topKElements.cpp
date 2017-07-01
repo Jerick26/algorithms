@@ -17,6 +17,84 @@
  *  wee: 4
  *
  ******************************************************************************/
+
+/*
+ * Top K Frequent Elements
+ * pass on leetcode
+ */
+#include <map>
+#include <pair>
+#include <vector>
+#include <algorithm>
+
+struct my_comp{
+    bool operator() (pair<int, int> a, pair<int, int> b){
+        if(a.first > b.first) return true;
+        else if(a.first == b.first && a.second > b.second) return true;
+        else return false;
+    }
+};
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        // the kernel is to use a minheap regrad of frequence, with size of K
+        // firstly, use a map to count the numbers
+        unordered_map<int, int> count; // <num, freq>
+        for(auto i : nums){
+            count[i]++;
+        }
+        // then pour them into the minheap, maitain the size of K
+        priority_queue<pair<int, int>, vector<pair<int, int>>, my_comp> minheap; //<freq, num>
+        for(auto p : count){
+            if(minheap.size() < k){
+                minheap.push(pair<int, int>(p.second, p.first));
+            }
+            else{
+                if(minheap.top().first < p.second){
+                    minheap.pop();
+                    minheap.push(pair<int, int>(p.second, p.first));
+                }
+            }
+        }
+        // then pull the k elements stored in minheap into vector, and then return 
+        vector<int> res;
+        while(!minheap.empty()){
+            res.push_back(minheap.top().second);
+            minheap.pop();
+        }
+        return res;
+    }
+};
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        map<int, int> f;
+        for (auto it=nums.begin(); it!=nums.end(); ++it)
+            f[*it]++;
+        vector<pair<int, int> > t;
+        auto it = f.begin();
+        for (int i=0; i<k; ++it, ++i)
+            t.push_back(*it);
+        std::sort(t.begin(), t.end(),
+            [](pair<int, int>& a, pair<int, int>& b){return a.second < b.second;});
+        for (; it!=f.end(); ++it) {
+            if (it->second <= t.front().second)
+                continue;
+            auto pos = std::lower_bound(t.begin(), t.end(), it->second,
+                [](pair<int, int>& a, int b){return a.second < b;});
+            t.insert(pos, *it);
+            t.erase(t.begin());
+        }
+        vector<int> r;
+        for (auto it=t.begin(); it!=t.end(); ++it)
+            r.push_back(it->first);
+        std::reverse(r.begin(), r.end());
+        return r;
+    }
+};
+
+
 #include <string>
 #include <map>
 #include <list>
