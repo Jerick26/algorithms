@@ -8,7 +8,7 @@ int checkHeight(TreeNode root) {
   int leftHeight = checkHeight(root.left);
   if (leftHeight Integer.MIN_VALUE) return Integer.MIN_VALUE; // Pass error up
   
-  int rightHeight checkHeight(root.right);
+  int rightHeight = checkHeight(root.right);
   if (rightHeight == Integer.MIN_VALUE) return Integer.MIN_VALUE; // Pass error up
   
   int heightDiff = leftHeight - rightHeight;
